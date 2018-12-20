@@ -1,0 +1,155 @@
+spring: 
+  profiles: 
+    active: 
+    - dev
+  
+---
+server:
+  port: 9527
+  context-path: /${spring.application.name}
+
+spring:
+  profiles: dev
+  application:
+    name: isp-css-api-gateway
+  redis:
+    host: 121.201.65.111
+    port: 6079
+    password: spwedOPZpC4SfrynbAZ1Ww==
+    timeout: 25000 
+    clusterNodes: 28.104.104.83:6380,28.104.104.84:6380,28.104.104.85:6380
+    clusterPassword: spwedOPZpC4SfrynbAZ1Ww==
+    isCluster: false
+    secretKey：VFNSMzQ1Njc4OTAxMjM0NTY3ODkwVFNS
+    pool:
+      max-active: 128
+      
+
+    
+eureka:
+  client: 
+    service-url: 
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true 
+    
+zuul: 
+  servlet-path: /
+  prefix: /znzj
+  ignored-services: "*"
+  routes: 
+    user:
+      serviceId: isp-css-user
+      path: /isp-css-user/**
+    analyzer: 
+      serviceId: isp-css-analyzer
+      path: /isp-css-analyzer/**
+    inspect: 
+      serviceId: isp-css-dispatcher
+      path: /isp-css-dispatcher/**
+    statistics: 
+      serviceId: isp-css-report
+      path: /isp-css-report/**
+    my_project:
+      serviceId: myq
+      path: /my_project/**
+    my_project-1:
+      serviceId: myq1
+      path: /myq_project-1/**  
+  host: 
+    socket-timeout-millis: 200000 
+    connect-timeout-millis: 200000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread: 
+            timeoutInMilliseconds: 200000
+          
+ribbon:
+  ReadTimeout: 200000
+  ConnectTimeout: 200000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1  
+  
+    
+info: 
+  app.name:  ${spring.application.name}
+  company.name: www.xph.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+  
+---
+
+server:
+  port: 9527
+  context-path: /${spring.application.name}
+
+spring:
+  profiles: test
+  application:
+    name: isp-css-api-gateway
+  redis:
+    host: 121.201.65.111
+    port: 6079
+    password: spwedOPZpC4SfrynbAZ1Ww==
+    timeout: 25000 
+    clusterNodes: 28.104.104.83:6380,28.104.104.84:6380,28.104.104.85:6380
+    clusterPassword: spwedOPZpC4SfrynbAZ1Ww==
+    isCluster: false
+    secretKey：VFNSMzQ1Njc4OTAxMjM0NTY3ODkwVFNS
+    pool:
+      max-active: 128
+
+    
+eureka:
+  client: 
+    service-url: 
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true 
+    
+zuul: 
+  servlet-path: /
+  prefix: /znzj
+  ignored-services: "*"
+  routes: 
+    user:
+      serviceId: isp-css-user
+      path: /isp-css-user/**
+    analyzer: 
+      serviceId: isp-css-analyzer
+      path: /isp-css-analyzer/**
+    inspect: 
+      serviceId: isp-css-dispatcher
+      path: /isp-css-dispatcher/**
+    statistics: 
+      serviceId: isp-css-report
+      path: /isp-css-report/**
+  host: 
+    socket-timeout-millis: 200000 
+    connect-timeout-millis: 200000
+    
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread: 
+            timeoutInMilliseconds: 200000
+
+ribbon:
+  ReadTimeout: 200000
+  ConnectTimeout: 200000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1  
+
+    
+info: 
+  app.name:  ${spring.application.name}
+  company.name: www.xph.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$

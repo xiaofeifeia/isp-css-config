@@ -1,0 +1,62 @@
+﻿
+spring: 
+  profiles: 
+    active: 
+    - dev
+
+---
+server:
+  port: 8791
+  context-path: /${spring.application.name}
+  
+spring:
+  profiles: dev
+  application:
+    name:  isp-css-monitor
+eureka:
+  instance: 
+    prefer-ip-address: true 
+    instance-id: ${spring.application.name}:${server.port}
+  client: 
+    service-url: 
+      defaultZone: http://localhost:8761/eureka/
+      
+turbine:
+  aggregator: 
+    clusterConfig: default
+  appConfig: isp-css-api-gateway,isp-css-user,isp-css-dispatcher,isp-css-analyzer
+  clusterNameExpression: new String("default")
+
+info: 
+  app.name: ${spring.application.name}
+  company.name: www.xph.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+---
+server:
+  port: 8791
+  
+spring:
+  profiles: test
+  application:
+    name:  isp-css-monitor
+eureka:
+  instance: 
+    prefer-ip-address: true 
+    instance-id: ${spring.application.name}:${server.port}
+  client: 
+    service-url: 
+      defaultZone: http://localhost:8761/eureka/
+      
+turbine:
+  aggregator: 
+    clusterConfig: default
+  appConfig: isp-css-api-gateway,isp-css-user,isp-css-dispatcher,isp-css-analyzer
+  clusterNameExpression: new String("default")
+
+info: 
+  app.name: ${spring.application.name}
+  company.name: www.xph.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+

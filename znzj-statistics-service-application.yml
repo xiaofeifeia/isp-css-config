@@ -1,0 +1,193 @@
+﻿
+spring: 
+  profiles: 
+    active: 
+    - dev
+  
+---
+server:
+  port: 8788
+  context-path: /${spring.application.name}
+  
+eureka:
+  instance: 
+    prefer-ip-address: true #使用IP注册
+    instance-id: ${spring.application.name}:${server.port}
+    ##续约到期时间10秒，默认是90秒
+    #lease-expiration-duration-in-seconds: 10
+    ##续约更新时间间隔设置5秒，m默认30s
+    #lease-renewal-interval-in-seconds: 5
+  client: 
+    service-url: 
+      defaultZone: http://localhost:8761/eureka/
+
+feign: 
+  hystrix: 
+    enabled: true 
+    
+##调整格隔离策略,防止feign相互之间调用丢失参数
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread: 
+            timeoutInMilliseconds: 20000
+
+info: 
+  app.name: ${spring.application.name}
+  company.name: www.xph.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+  
+spring: 
+  profiles: dev
+  application:
+    name: isp-css-report
+  #datasource:
+  #   type: com.alibaba.druid.pool.DruidDataSource
+  #   platform: mysql
+  #   url: jdbc:mysql://121.201.65.111:6306/inspection?useUnicode=true&characterEncoding=utf-8
+  #   username: root
+  #   password: 123456
+  redis:
+    host: 121.201.65.111
+    port: 6079
+    password: spwedOPZpC4SfrynbAZ1Ww==
+    timeout: 25000 
+    clusterNodes: 28.104.104.83:6380,28.104.104.84:6380,28.104.104.85:6380
+    clusterPassword: spwedOPZpC4SfrynbAZ1Ww==
+    isCluster: false
+    secretKey：VFNSMzQ1Njc4OTAxMjM0NTY3ODkwVFNS
+    pool:
+      max-active: 128
+
+
+mybatis: 
+  type-aliases-package: com.znzj.model
+  mapper-locations: classpath:mapper/**/*.xml
+  
+druid: 
+  secretKey: VFNSMzQ1Njc4OTAxMjM0NTY3ODkwVFNS
+  url: jdbc:mysql://121.201.65.111:6306/inspection?useUnicode=true&characterEncoding=utf-8
+  userName: p6Ip/PYbnJY=
+  password: bL5zYJJuDBk=
+# 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+# 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+  filters: config,stat,wall,log4j
+  filter: 
+    config: 
+	  enabled: true
+# 连接池的配置信息
+# 初始化大小，最小，最大 
+  initialSize: 10
+  minIdle: 5
+  maxActive: 50
+# 配置获取连接等待超时的时间
+  maxWait: 60000
+# 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+  timeBetweenEvictionRunsMillis: 60000
+# 配置一个连接在池中最小生存的时间，单位是毫秒
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 1 FROM DUAL
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+# 打开PSCache，并且指定每个连接上PSCache的大小  
+  poolPreparedStatements:true
+  maxPoolPreparedStatementPerConnectionSize: 20
+  
+---
+server:
+  port: 8788
+  
+eureka:
+  instance: 
+    prefer-ip-address: true #使用IP注册
+    instance-id: ${spring.application.name}:${server.port}
+    ##续约到期时间10秒，默认是90秒
+    #lease-expiration-duration-in-seconds: 10
+    ##续约更新时间间隔设置5秒，m默认30s
+    #lease-renewal-interval-in-seconds: 5
+  client: 
+    service-url: 
+      defaultZone: http://localhost:8761/eureka/
+
+feign: 
+  hystrix: 
+    enabled: true 
+    
+##调整格隔离策略,防止feign相互之间调用丢失参数
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread: 
+            timeoutInMilliseconds: 200000
+
+info: 
+  app.name: ${spring.application.name}
+  company.name: www.xph.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+  
+spring: 
+  profiles: test 
+  application:
+    name: isp-css-report
+  #datasource:
+  #   type: com.alibaba.druid.pool.DruidDataSource
+  #   platform: mysql
+  #   url: jdbc:mysql://121.201.65.111:6306/inspection?useUnicode=true&characterEncoding=utf-8
+  #   username: root
+  #   password: 123456
+  redis:
+    host: 121.201.65.111
+    port: 6079
+    password: spwedOPZpC4SfrynbAZ1Ww==
+    timeout: 25000 
+    clusterNodes: 28.104.104.83:6380,28.104.104.84:6380,28.104.104.85:6380
+    clusterPassword: spwedOPZpC4SfrynbAZ1Ww==
+    isCluster: false
+    secretKey：VFNSMzQ1Njc4OTAxMjM0NTY3ODkwVFNS
+    pool:
+      max-active: 128
+
+mybatis: 
+  type-aliases-package: com.znzj.model
+  mapper-locations: classpath:mapper/**/*.xml
+
+druid: 
+  secretKey: VFNSMzQ1Njc4OTAxMjM0NTY3ODkwVFNS
+  url: jdbc:mysql://121.201.65.111:6306/inspection?useUnicode=true&characterEncoding=utf-8
+  userName: p6Ip/PYbnJY=
+  password: bL5zYJJuDBk=
+# 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+# 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+  filters: config,stat,wall,log4j
+  filter: 
+    config: 
+	  enabled: true
+# 连接池的配置信息
+# 初始化大小，最小，最大 
+  initialSize: 10
+  minIdle: 5
+  maxActive: 50
+# 配置获取连接等待超时的时间
+  maxWait: 60000
+# 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+  timeBetweenEvictionRunsMillis: 60000
+# 配置一个连接在池中最小生存的时间，单位是毫秒
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 1 FROM DUAL
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+# 打开PSCache，并且指定每个连接上PSCache的大小  
+  poolPreparedStatements:true
+  maxPoolPreparedStatementPerConnectionSize: 20
